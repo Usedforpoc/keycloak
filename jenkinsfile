@@ -8,13 +8,13 @@ pipeline {
             }
 
             agent {
-                any {
+                docker {
                     image 'debricked/debricked-cli'
                     args '--entrypoint="" -v ${WORKSPACE}:/data -w /data'
                 }
             }
             steps {
-                sh 'bash /home/entrypoint.sh debricked:scan "$DEBRICKED_CREDENTIALS_USR" "$DEBRICKED_CREDENTIALS_PSW"  *keycloak* "$GIT_COMMIT" null cli'
+                sh 'bash /home/entrypoint.sh debricked:scan "$DEBRICKED_CREDENTIALS_USR" "$DEBRICKED_CREDENTIALS_PSW"  Usedforpoc/keycloak "$GIT_COMMIT" null cli'
             }
         }
     }
