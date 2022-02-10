@@ -11,3 +11,4 @@ sh 'bash /home/entrypoint.sh debricked:scan "$DEBRICKED_CREDENTIALS_USR" "$DEBRI
 }
 
 }
+}
