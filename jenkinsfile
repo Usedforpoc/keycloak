@@ -1,21 +1,13 @@
-pipeline {
-    agent none
-
-    stages {
-        stage('Vulnerability scan') {
+def label = "docker"
+node(label) {
+stage('Vulnerability scan') {
             environment {
                 DEBRICKED_CREDENTIALS = credentials('debricked-creds')
             }
+stage('docker'){
+image 'debricked/debricked-cli'
+args '--entrypoint="" -v ${WORKSPACE}:/data -w /data'
+sh 'bash /home/entrypoint.sh debricked:scan "$DEBRICKED_CREDENTIALS_USR" "$DEBRICKED_CREDENTIALS_PSW" Usedforpoc/keycloak "$GIT_COMMIT" null cli'
+}
 
-            agent {
-                any {
-                    image 'debricked/debricked-cli'
-                    args '--entrypoint="" -v ${WORKSPACE}:/data -w /data'
-                }
-            }
-            steps {
-                sh 'bash /home/entrypoint.sh debricked:scan "$DEBRICKED_CREDENTIALS_USR" "$DEBRICKED_CREDENTIALS_PSW"  Usedforpoc/keycloak "$GIT_COMMIT" null cli'
-            }
-        }
-    }
 }
